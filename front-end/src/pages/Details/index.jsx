@@ -18,7 +18,6 @@ import { SideMenu } from "../../components/sideMenu";
 
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
-import { IoContrastOutline } from "react-icons/io5";
 
 
 export function Details() {
@@ -56,7 +55,7 @@ export function Details() {
 
         return `R$ ${priceWithComma}`;
     }    
-
+  
     useEffect(() => { 
       async function fetchNote() {
         const response = await api.get(`/meals/${params.id}`);
@@ -72,7 +71,9 @@ export function Details() {
         menuIsOpen={menuIsOpen}
         onCloseMenu={() => setMenuIsOpen(false)}
         /> 
-        <Header onOpenMenu={() => setMenuIsOpen(true)}/> 
+        <Header onOpenMenu={() => setMenuIsOpen(true)}
+        mealsCount={mealsCount}
+        /> 
             { 
             data&&
             <main>
@@ -126,6 +127,7 @@ export function Details() {
                                   <Button
                                    className="includes"
                                    icon={PiReceipt}
+                                    onClick={() => onClickCountMeals(mealsCount)}
                                    title={ `  Incluir    \u2219    ${formatPrice(data.price)}`}
                                   />
                               </div>
@@ -138,8 +140,6 @@ export function Details() {
 
             </main>
             }
-
-           
             <Footer/>
         </Container>
     )
