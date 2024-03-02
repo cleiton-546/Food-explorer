@@ -13,7 +13,7 @@ import { Container, NewDish, Logout, Menu } from "./style"
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
 
-export function Header({ onOpenMenu  ,...props}) {
+export function Header({ onOpenMenu, mealsCount  ,...props}) {
     const { user, signOut } = useAuth();
 
     const navigation = useNavigate();
@@ -61,18 +61,16 @@ export function Header({ onOpenMenu  ,...props}) {
               <Button
                 icon={PiReceipt}
                 title="Pedidos"
-                score={`(0)`}
+                score={`(${mealsCount})`}
               />
               <div className="receipt">
                 <PiReceipt />
-                <span>0</span>
-
+                <span>{mealsCount}</span>
               </div>
               
             </div>              
             </>
         }
-
             
         <Logout onClick={handleSignOut}>
             <GoSignOut />

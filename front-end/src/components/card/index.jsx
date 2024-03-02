@@ -1,6 +1,5 @@
 import { Container } from "./style";
 
-
 import { GoPencil } from "react-icons/go";
 import { FaRegHeart } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
@@ -15,12 +14,13 @@ import { api } from "../../services/api";
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
 
-export function Card({ data, onClickDetails, onClickEdit, ...rest})  {
-    const { user } = useAuth();
 
-    const [mealsCount, setMealsCount] = useState(1)
-    const [isFavorite, setIsFavorite] = useState(false)
-    const [mealsSelection, setMealsSelection] = useState({})
+
+export function Card({ data, onClickDetails, onClickEdit, onClickCountMeals,  ...rest})  {
+    const { user } = useAuth();
+   
+    const [ isFavorite, setIsFavorite ] = useState(false)
+    const [ mealsCount, setMealsCount ] = useState(1)
 
     const imgURL = data.img? `${api.defaults.baseURL}/files/${data.img}` : "";
     
@@ -44,12 +44,9 @@ export function Card({ data, onClickDetails, onClickEdit, ...rest})  {
     function handleFavorite(){
         setIsFavorite(!isFavorite);
     }
-   
 
     return(
         <Container {...rest}>
-        
-               
           
             <div className="Icons">
                 {
@@ -98,14 +95,13 @@ export function Card({ data, onClickDetails, onClickEdit, ...rest})  {
                 <div>
                 </div >
                 <div className="button">
-                   <Button title="Incluir" />
+                   <Button
+                    title="incluir"
+                    onClick={() => onClickCountMeals(mealsCount)}
+                   />
                 </div>
-                
-               
             </div>
-
             </>
-            
             } 
          
         </Container>
