@@ -72,7 +72,7 @@ export function Details() {
         onCloseMenu={() => setMenuIsOpen(false)}
         /> 
         <Header onOpenMenu={() => setMenuIsOpen(true)}
-        mealsCount={mealsCount}
+        mealsCount="0"
         /> 
             { 
             data&&
