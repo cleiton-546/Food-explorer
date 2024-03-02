@@ -127,7 +127,6 @@ export function Details() {
                                   <Button
                                    className="includes"
                                    icon={PiReceipt}
-                                    onClick={() => onClickCountMeals(mealsCount)}
                                    title={ `  Incluir    \u2219    ${formatPrice(data.price)}`}
                                   />
                               </div>
