@@ -1,4 +1,4 @@
-import { useState, useEffect,} from "react"
+import { useState, useEffect, createContext, useContext,} from "react"
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
@@ -18,13 +18,13 @@ import { Container, Nav} from "./style"
 import { useNavigate } from "react-router-dom"
 import img from "../../assets/mobileimg.png"
 import imgDesktop from "../../assets/desktopImg.png"
-
+import { MealsContext } from "../../context/MealsContext";
 
 export function Home( ) {
+    const { numberOfMeals  } = useContext(MealsContext)
     const [search, setSearch] = useState("");
     const [meals, setMeals] = useState([]);
     const [menuIsOpen, setMenuIsOpen] = useState(false) 
-    const [savedMealsCount, setSavedMealsCount] = useState(0)
     
     const navigate = useNavigate(); 
   
@@ -34,11 +34,6 @@ export function Home( ) {
 
     function handleEdit(id) {
         navigate(`/edit/${id}`)
-    }
-
-    function handleSaveMealsCount(count) {
-      setSavedMealsCount(prevCount => prevCount + count)
-      
     }
    
     useEffect(() => {
@@ -59,13 +54,11 @@ export function Home( ) {
         menuIsOpen={menuIsOpen}
         onCloseMenu={() => setMenuIsOpen(false)}
         /> 
-        <Header 
-        onChange={(e) => { 
-          setSearch(e.target.value)
-        }}
-        mealsCount={savedMealsCount}
-        onOpenMenu={() => setMenuIsOpen(true)}/>
-        
+           <Header 
+             onChange={(e) => { 
+             setSearch(e.target.value) }}
+             onOpenMenu={() => setMenuIsOpen(true)}
+             />
         
         <main className="main" >
         <Nav>
@@ -137,7 +130,7 @@ export function Home( ) {
                             data={meal}
                             onClickDetails={handleDetails}
                             onClickEdit={handleEdit}
-                            onClickCountMeals={handleSaveMealsCount}
+                            onClickCountMeals={numberOfMeals}
                             />
                         </SwiperSlide>
                         ))
@@ -194,7 +187,7 @@ export function Home( ) {
                             data={meal}
                             onClickDetails={handleDetails}
                             onClickEdit={handleEdit}
-                            onClickCountMeals={handleSaveMealsCount}
+                            onClickCountMeals={numberOfMeals}
                             />
                         </SwiperSlide>
                         ))
@@ -251,7 +244,7 @@ export function Home( ) {
                             data={meal}
                             onClickDetails={handleDetails}
                             onClickEdit={handleEdit}
-                            onClickCountMeals={handleSaveMealsCount}
+                            onClickCountMeals={numberOfMeals}
                             />
                         </SwiperSlide>
                         ))
@@ -261,9 +254,7 @@ export function Home( ) {
             </div>
             </div>
         </main>    
-        
         <Footer />
     </Container>
     ) 
-
 } 

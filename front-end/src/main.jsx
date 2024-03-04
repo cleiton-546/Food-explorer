@@ -6,6 +6,7 @@ import theme from './styles/theme'
 
 import { Routes } from './routes'
 import { AuthProvider } from './hooks/auth'
+import { MealsCountContextProvider } from './context/MealsContext'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={theme} >
       <GlobalStyles />
         <AuthProvider>
-          <Routes />
+          <MealsCountContextProvider>
+             <Routes />
+          </MealsCountContextProvider>
         </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>,

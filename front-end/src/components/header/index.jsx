@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import { PiListBold } from "react-icons/pi";
 import { GoSignOut } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
@@ -12,11 +14,14 @@ import { Button } from "../button"
 import { Container, NewDish, Logout, Menu } from "./style"
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
+import { MealsContext } from "../../context/MealsContext";
 
-export function Header({ onOpenMenu, mealsCount  ,...props}) {
+export function Header({ onOpenMenu,  ...props}) {
+    const { selectedMeals } = useContext(MealsContext)
     const { user, signOut } = useAuth();
 
     const navigation = useNavigate();
+
     function handleSignOut() {
         navigation("/")
         signOut();
@@ -61,11 +66,12 @@ export function Header({ onOpenMenu, mealsCount  ,...props}) {
               <Button
                 icon={PiReceipt}
                 title="Pedidos"
-                score={`(${mealsCount})`}
+                score={`(${selectedMeals})`}
+                
               />
               <div className="receipt">
                 <PiReceipt />
-                <span>{mealsCount}</span>
+                <span>{selectedMeals}</span>
               </div>
               
             </div>              
@@ -74,9 +80,7 @@ export function Header({ onOpenMenu, mealsCount  ,...props}) {
             
         <Logout onClick={handleSignOut}>
             <GoSignOut />
-
         </Logout>
-           
     </Container>
     )
 }

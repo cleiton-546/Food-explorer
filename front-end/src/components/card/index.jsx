@@ -7,37 +7,33 @@ import { FaMinus } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 
 import { Button } from "../button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { api } from "../../services/api";
 
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
 
-
-
 export function Card({ data, onClickDetails, onClickEdit, onClickCountMeals,  ...rest})  {
     const { user } = useAuth();
    
-    const [ isFavorite, setIsFavorite ] = useState(false)
-    const [ mealsCount, setMealsCount ] = useState(1)
+    const [ isFavorite, setIsFavorite ] = useState(false) 
+    const [ mealsCount, setMealsCount ] = useState(1);
 
-    const imgURL = data.img? `${api.defaults.baseURL}/files/${data.img}` : "";
-    
-    function handleCountMeals() {
-        setMealsCount(mealsCount + 1);
+   function handleCountMeals() {
+        setMealsCount(prevCount => prevCount + 1);
     }
+   
     function handleDeleteMeals() {
         if (mealsCount > 0)
-        setMealsCount(mealsCount - 1);
-    }
+            setMealsCount(prevCount => prevCount - 1);
+    }       
+
+    const imgURL = data.img? `${api.defaults.baseURL}/files/${data.img}` : "";
 
     function formatPrice(price) {
-         
         const formattedPrice = parseFloat(price).toFixed(2);
-
         const priceWithComma = formattedPrice.replace(".", ",")
-
         return `$${priceWithComma}`;
     }
     
@@ -63,7 +59,7 @@ export function Card({ data, onClickDetails, onClickEdit, onClickCountMeals,  ..
                        fontSize={25}
                        className={isFavorite ? "favorite active" : "favorite"}
                        onClick={handleFavorite} 
-
+                       
                        />    
                     </>
                 }
@@ -97,7 +93,7 @@ export function Card({ data, onClickDetails, onClickEdit, onClickCountMeals,  ..
                 <div className="button">
                    <Button
                     title="incluir"
-                    onClick={() => onClickCountMeals(mealsCount)}
+                    onClick={(e) => onClickCountMeals(mealsCount)} 
                    />
                 </div>
             </div>

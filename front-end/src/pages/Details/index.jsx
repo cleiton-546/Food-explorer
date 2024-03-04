@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { FaPlus } from "react-icons/fa";
@@ -18,14 +18,15 @@ import { SideMenu } from "../../components/sideMenu";
 
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
-
+import { MealsContext } from "../../context/MealsContext";
 
 export function Details() {
     const { user } = useAuth();
+    const {  numberOfMeals } = useContext(MealsContext)
 
     const [data, setData] = useState(null)
-    const [mealsCount, setMealsCount] = useState(1)
     const [menuIsOpen, setMenuIsOpen] = useState(false)
+    const [mealsCount, setMealsCount] = useState(1);
 
     const params = useParams()
     const navigate = useNavigate()
@@ -39,14 +40,16 @@ export function Details() {
     function handleEdit() {
         navigate(`/edit/${data.id}`)
     }
-
+      
     function handleCountMeals() {
-        setMealsCount(mealsCount + 1);
+        setMealsCount(prevCount => prevCount + 1);
     }
+   
     function handleDeleteMeals() {
         if (mealsCount > 0)
-        setMealsCount(mealsCount - 1);
-    }    
+            setMealsCount(prevCount => prevCount - 1);
+    }       
+    
     function formatPrice(price) {
          
         const formattedPrice = parseFloat(price).toFixed(2);
@@ -72,7 +75,6 @@ export function Details() {
         onCloseMenu={() => setMenuIsOpen(false)}
         /> 
         <Header onOpenMenu={() => setMenuIsOpen(true)}
-        mealsCount="0"
         /> 
             { 
             data&&
@@ -94,7 +96,6 @@ export function Details() {
                                 <Ingredient
                                 key={String(ingredient.id)}
                                 title={ingredient.name}
-                                
                                 />
 
                              ))   
@@ -127,6 +128,7 @@ export function Details() {
                                   <Button
                                    className="includes"
                                    icon={PiReceipt}
+                                   onClick={(e) => numberOfMeals(mealsCount)} 
                                    title={ `  Incluir    \u2219    ${formatPrice(data.price)}`}
                                   />
                               </div>
